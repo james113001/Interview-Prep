@@ -8,29 +8,40 @@ Input: nums = [1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9, 10, 11],
 Output: [3, 5]
 Explanation: The first and last occurrences of number 4 are indexes 3 and 5, respectively. """
 from typing import List
+from bisect import bisect_left, bisect_right
 
 def first_and_last_occurrences_of_a_number(nums: List[int], target: int) -> int:
     #binary search twice, once for each side
-    def findboundary(nums: List[int], target: int, findfirst: bool):
-        lo, hi = 0, len(nums)-1
-        result = -1
-        while lo<=hi:
-            mid = (lo +hi)//2
-            if nums[mid]==target:
-                result = mid
-                if findfirst:
-                    hi = mid - 1
-                else:
-                    lo = mid + 1
-            elif nums[mid]<target:
-                lo = mid + 1
-            else:
-                hi= mid - 1
-        return result
-    
-    first = findboundary(nums, target, True)
-    if first == -1:
+    first = bisect_left(nums, target)
+    #if nums is empty
+    if first == len(nums) or nums[first]!= target:
         return [-1,-1]
-    last = findboundary(nums, target, False)
+    last = bisect_right(nums, target)-1
     return [first, last]
-# O Complexity: O(log n) 
+
+#Manual binary search version:
+# def first_and_last_occurrences_of_a_number(nums: List[int], target: int) -> int:
+#     #binary search twice, once for each side
+#     def findboundary(nums: List[int], target: int, findfirst: bool):
+#         lo, hi = 0, len(nums)-1
+#         result = -1
+#         while lo<=hi:
+#             mid = (lo +hi)//2
+#             if nums[mid]==target:
+#                 result = mid
+#                 if findfirst:
+#                     hi = mid - 1
+#                 else:
+#                     lo = mid + 1
+#             elif nums[mid]<target:
+#                 lo = mid + 1
+#             else:
+#                 hi= mid - 1
+#         return result
+    
+#     first = findboundary(nums, target, True)
+#     if first == -1:
+#         return [-1,-1]
+#     last = findboundary(nums, target, False)
+#     return [first, last]
+## O Complexity: O(log n) 

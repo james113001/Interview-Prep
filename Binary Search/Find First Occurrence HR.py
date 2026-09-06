@@ -68,21 +68,28 @@ import sys
 #  1. INTEGER_ARRAY nums
 #  2. INTEGER target
 #
+from bisect import bisect_left
+from typing import List
 
-def findFirstOccurrence(nums, target):
-    lo, hi = 0, len(nums)-1
-    result = -1
-    while lo<=hi:
-        mid = (lo+hi)//2
-        if nums[mid] == target:
-            result = mid #keep iterating to find leftmost occurrence
+def find_the_insertion_index(nums: List[int], target: int) -> int:
+    return bisect_left(nums, target)
+# O Complexity: O(log n)
 
-        if nums[mid] < target:
-            lo = mid+1
-        else:
-            hi = mid-1
+# manual binary search version:
+# def findFirstOccurrence(nums, target):
+#     lo, hi = 0, len(nums)-1
+#     result = -1
+#     while lo<=hi:
+#         mid = (lo+hi)//2
+#         if nums[mid] == target:
+#             result = mid #keep iterating to find leftmost occurrence
 
-    return result
+#         if nums[mid] < target:
+#             lo = mid+1
+#         else:
+#             hi = mid-1
+
+#     return result
 
 #O Complexity: O(log n) where n is the length of the input array. 
 # We perform binary search on the sorted array, which has a logarithmic time complexity. 
