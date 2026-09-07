@@ -19,6 +19,7 @@ def linked_list_loop(head: ListNode) -> bool:
     # fast moves twice as fast, and if there is a cycle,
     # should lap slow
     slow = fast = head
+    #ensure fast and fast.next are not None, otherwise will get error when trying to access fast.next.next
     while fast and fast.next:
         slow = slow.next
         fast = fast.next.next
