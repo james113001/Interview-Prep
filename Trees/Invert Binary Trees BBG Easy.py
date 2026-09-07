@@ -46,6 +46,7 @@ def invert_tree(root):
     #use deque for efficient pop from left and to store nodes to visit
     queue = deque([root])
     while queue:
+        
         #pop the leftmost (oldest) node from the queue, popping rightmost (newest) would be DFS instead of BFS
         node = queue.popleft()
         node.left, node.right = node.right, node.left   # swap children
