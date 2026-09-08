@@ -38,6 +38,9 @@ class Solution(object):
         :type l2: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
+        # two references to the same linked list (cursor, and solution)- solution points to the first empty (-1) node, and then we use cursor 
+        # to build the linked list by adding new nodes as we traverse l1 and l2
+
         ans = ListNode()
         cursor = ans
         

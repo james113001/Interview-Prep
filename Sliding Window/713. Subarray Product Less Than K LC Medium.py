@@ -43,4 +43,4 @@ class Solution:
             #length of window = number of subarrays ending at fast
             count += fast-slow +1
         return count
-# O Complexity: O(n) where n is the length of the input array.
+# O Complexity: O(n) where n is the length of the input array. O(1) space complexity since we are using a constant amount of extra space for variables.
