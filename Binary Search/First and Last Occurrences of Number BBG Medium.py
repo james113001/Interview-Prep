@@ -16,6 +16,8 @@ def first_and_last_occurrences_of_a_number(nums: List[int], target: int) -> int:
     #if nums is empty
     if first == len(nums) or nums[first]!= target:
         return [-1,-1]
+    # if target is found, find the last occurrence 
+    # -1 because bisect_right returns the index where the target would be inserted to the right of the last occurrence
     last = bisect_right(nums, target)-1
     return [first, last]
 
