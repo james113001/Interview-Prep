@@ -35,6 +35,7 @@ def cutting_wood(heights: List[int], k: int) -> int:
         mid = (lo+hi)//2
         #might not be able to get exactly k, so >=, not ==
         if findwoodresult(mid) >= k:
+            #we can get at least k, so save this as a possible result
             result = mid
             #want to search higher
             lo= mid + 1

@@ -29,6 +29,7 @@ def minute_bars(records):
         if key not in bars:
             bars[key] = {"open": price, "high": price,
                          "low": price, "close": price, "vol": vol}
+        bar = bars[key]
         else:
             bar["high"] = max(bar["high"], price)
             bar["low"] = min(bar["low"], price)

@@ -50,7 +50,7 @@ def clone_graph(node):
     old_to_new = {}
 
     def dfs(curr):
-        if curr in old_to_new:
+        if curr in old_to_new:q
             return old_to_new[curr]   # already cloned — just return the existing clone
 
         clone = Node(curr.val)

@@ -13,8 +13,42 @@ feed_c = [(3, "TSLA", 250.0), (7, "AAPL", 187.8)]
 # (7, "AAPL", 187.8), 
 # (9, "MSFT", 412.0)]
 
+from decimal import Decimal
 import heapq
 from itertools import groupby
+
+from collections import defaultdict, deque
+
+class RollingAverage:
+    def __init__(self, window_size=60):
+        self.window_size = window_size
+        self.windows = defaultdict(deque)  # store (timestamp, price) tuples, create window for each symbol
+        self.sums = defaultdict(float)  # store the sum of prices for each symbol
+        self.notional = defaultdict(float)  # store the sum of prices for each symbol
+        self.vol = defaultdict(int)  # store the total quantity for each symbol
+
+    def add(self, timestamp, symbol, price):
+        window = self.windows[symbol]
+        window.append((timestamp, price))
+        self.sums[symbol] += price
+        while window and timestamp - window[0][0] > self.window_size:
+            old_ts, old_price = window.popleft()
+            self.sums[symbol] -= old_price
+
+        return Decimal(str(self.sums[symbol] / len(window))) #use Decimal to avoid floating point precision issues
+
+    def vwapadd(self, timestamp, symbol, price, qty):
+        window = self.windows[symbol]
+        window.append((timestamp, price, qty))
+        self.notional[symbol] += price * qty
+        self.vol[symbol] += qty
+
+        while window and timestamp - window[0][0] > self.window_size:
+            old_ts, old_price, old_volume = window.popleft()
+            self.notional[symbol] -= old_price * old_volume
+            self.vol[symbol] -= old_volume
+
+        return Decimal(str(self.notional[symbol] / self.vol[symbol])) if self.vol[symbol] > 0 else Decimal('0')
 
 # with merge and groupby
 def combine_feeds(feeds):
@@ -42,3 +76,4 @@ def combine_feeds(feeds):
         next_val = next(iters[i], None)
         if next_val is not None:
             heapq.heappush(heap, (next_val, i))
+
